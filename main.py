@@ -14,6 +14,7 @@ from wtforms.validators import DataRequired, Email
 from functools import wraps
 import os
 import psycopg2
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "fsdfj1po23rfewu9u210rjdpo21r1")
@@ -24,8 +25,8 @@ Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+migrate = Migrate(app, db)
+
 
 # Create LoginManager
 login_manager = LoginManager()
